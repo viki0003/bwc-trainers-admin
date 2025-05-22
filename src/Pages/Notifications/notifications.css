@@ -1,0 +1,9 @@
+.trainers-notifications .trainer-management-table {
+    padding: 0;
+    box-shadow: none;
+    margin-bottom: 23px;
+}
+
+.trainers-notifications .filterbtn select {
+    font-weight: 600;
+}

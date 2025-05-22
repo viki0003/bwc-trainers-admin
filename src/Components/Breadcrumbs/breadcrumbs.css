@@ -1,0 +1,45 @@
+.breadcrumb {
+  font-size: 14px;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+.breadcrumb a {
+  color: #9ca3af;
+  text-decoration: none;
+  text-transform: capitalize;
+  font-family: Inter;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 100%;
+}
+
+.breadcrumb a:hover {
+  color: #6b7280;
+}
+
+.breadcrumb-separator {
+  margin: 0 4px;
+  color: #9ca3af;
+}
+
+.breadcrumb-current {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 100%;
+  text-transform: capitalize;
+  color: #000000;
+}
+
+h1.app-page-title {
+  font-family: Inter;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 100%;
+  color: #000;
+  margin-bottom: 25px;
+}

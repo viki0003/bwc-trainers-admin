@@ -1,0 +1,143 @@
+.header__logo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header__logo img.logo {
+  width: 80px;
+  height: 85px;
+  object-fit: contain;
+}
+
+header.header {
+  background: #070028;
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header__logo span {
+  font-family: Inter;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 100%;
+  color: #fff;
+}
+
+/* Header Hamburger */
+
+/* From Uiverse.io by vinodjangid07 */
+.hamburger-btn .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  display: none;
+}
+.hamburger-btn .switch {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+.hamburger-btn .wrapper {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.2s;
+}
+.hamburger-btn .row {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.hamburger-btn .row-bottom {
+  align-items: flex-end;
+}
+.hamburger-btn .dot {
+  width: 8px;
+  height: 8px;
+  border: 2px solid black;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+.hamburger-btn .row-horizontal {
+  position: absolute;
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s;
+}
+.hamburger-btn .row-vertical {
+  position: absolute;
+  width: fit-content;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s;
+}
+
+.hamburger-btn .switch:hover .wrapper .row-horizontal {
+  width: 100px;
+}
+.hamburger-btn .switch:hover .wrapper .row-vertical {
+  height: 100px;
+}
+
+.hamburger-btn .switch:hover .wrapper .row-vertical .middle-dot {
+  border-radius: 5px;
+  height: 35px;
+}
+.hamburger-btn .switch:hover .wrapper .row-horizontal .middle-dot-horizontal {
+  border-radius: 5px;
+  width: 35px;
+}
+.hamburger-btn .switch input:checked + .wrapper {
+  transform: rotate(45deg) scale(1.2);
+}
+.hamburger-btn .switch input:checked + .wrapper .row-vertical {
+  height: 100px;
+}
+.hamburger-btn .switch input:checked + .wrapper .row-horizontal {
+  width: 100px;
+}
+
+.hamburger-btn .switch input:checked + .wrapper .row-vertical .middle-dot {
+  border-radius: 5px;
+  height: 35px;
+}
+.hamburger-btn
+  .switch
+  input:checked
+  + .wrapper
+  .row-horizontal
+  .middle-dot-horizontal {
+  border-radius: 5px;
+  width: 35px;
+}
+
+header.header .hamburger-btn {
+  background: #fff;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+@media (min-width: 991px) {
+  header.header .hamburger-btn {
+    display: none;
+  }
+}

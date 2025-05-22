@@ -1,0 +1,30 @@
+.trainers-block-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.trainers-block-list .trainers-block.w-full {
+    width: 100%;
+}
+
+.trainers-block-list .trainers-block {
+    width: calc(50% - 10px);
+    padding: 16px 20px;
+    box-shadow: 0px 0px 4px 0px #00000040;
+    border-radius: 10px;
+}
+
+.trainers-block-list .trainers-block h4 {
+    font-family: Inter;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 100%;
+    color: #000;
+    margin-bottom: 12px;
+}
+
+.trainers-block-list .trainers-block button.btn.black {
+    width: 100%;
+    margin-top: 15px;
+}
