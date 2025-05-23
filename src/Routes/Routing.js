@@ -6,6 +6,7 @@ import TrainersHome from "../Pages/TrainersHome/TrainersHome";
 import MySessions from "../Pages/MySessions/MySessions";
 import Notifications from "../Pages/Notifications/Notifications";
 import Profile from "../Pages/Profile/Profile";
+import Availability from "../Pages/Availability/Availability";
 
 const Routing = () => {
   return (
@@ -14,6 +15,7 @@ const Routing = () => {
         <Route path="/home" element={<TrainersHome />} />
         <Route path="/my-sessions" element={<MySessions />} />
         <Route path="/notifications" element={<Notifications />} />
+        <Route path="/availability" element={<Availability />} />
         <Route path="/profile" element={<Profile />} />
       </Route>
       <Route path="/" element={<TrainersLogin />} />

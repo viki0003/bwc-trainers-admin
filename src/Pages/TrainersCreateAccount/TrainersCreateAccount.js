@@ -34,7 +34,7 @@ const TrainersCreateAccount = () => {
           <hr />
           <div className="dha-element">
             <span>Already Have An Account?</span>
-            <Link to="/trainersregister" className="btn black">
+            <Link to="/" className="btn black">
               Log in to Your Account
             </Link>
           </div>

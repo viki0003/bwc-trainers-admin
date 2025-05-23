@@ -29,7 +29,7 @@ const TrainersLogin = () => {
           <hr />
           <div className="dha-element">
             <span>Don’t Have An Account? Create A New Account Here</span>
-            <Link to="/trainersregister" className="btn black">
+            <Link to="/trainers-create-account" className="btn black">
               Create Your New Account
             </Link>
           </div>
