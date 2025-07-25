@@ -1,9 +1,11 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useLogout } from "../../APIContext/UseLogout";
 import "./Sidebar.css";
 
 const Sidebar = () => {
   const location = useLocation();
+  const logout = useLogout();
   const isActive = (path) => location.pathname.startsWith(path);
 
   return (
@@ -32,6 +34,9 @@ const Sidebar = () => {
 
       <div className={`sidebar-item ${isActive("/profile") ? "active" : ""}`}>
         <Link to="/profile">Profile</Link>
+      </div>
+      <div className="sidebar-item" onClick={logout}>
+        <span>Log Out</span>
       </div>
     </div>
   );
