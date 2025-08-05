@@ -1,8 +1,11 @@
 import { useLocation } from "react-router-dom";
 import "./breadcrumbs.css";
+import { useTrainerAccounts } from "../../APIContext/TrainerAccountContext";
 
-const Breadcrumbs = ({ userName = "[Name]" }) => {
+const Breadcrumbs = () => {
   const location = useLocation();
+  const { trainer } = useTrainerAccounts();
+
   const pathnames = location.pathname.split("/").filter((x) => x);
   const currentPage = pathnames[pathnames.length - 1] || "Dashboard";
 
@@ -15,7 +18,10 @@ const Breadcrumbs = ({ userName = "[Name]" }) => {
 
   const getTitle = () => {
     if (location.pathname === "/home") {
-      return `Welcome, Coach ${userName}`;
+      const coachName = trainer
+        ? `${trainer.user.first_name} ${trainer.user.last_name}`
+        : "[Name]";
+      return `Welcome, Coach ${coachName}`;
     }
     return formatTitle(currentPage);
   };
