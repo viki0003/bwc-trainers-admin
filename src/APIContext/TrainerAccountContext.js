@@ -43,12 +43,34 @@ export const TrainerAccountProvider = ({ children }) => {
   };
 
   const updateTrainer = async (updatedData) => {
+
+    try {
+      const res = await axiosInstance.patch(baseURL, updatedData, {
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+      
+      
+      setTrainer(res.data);
+      return res.data;
+    } catch (err) {
+      console.error("Trainer update failed:", err.response?.data || err);
+      throw err;
+    }
+  };
+
+  
+  const updateTrainerProfileImage = async (updatedData) => {
+
     try {
       const res = await axiosInstance.patch(baseURL, updatedData, {
         headers: {
           "Content-Type": "multipart/form-data",
-        },
+        }
       });
+      
+      
       setTrainer(res.data);
       return res.data;
     } catch (err) {
@@ -71,6 +93,7 @@ export const TrainerAccountProvider = ({ children }) => {
         fetchTrainer,
         createTrainer,
         updateTrainer,
+        updateTrainerProfileImage
       }}
     >
       {children}

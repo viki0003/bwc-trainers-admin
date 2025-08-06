@@ -2,11 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { useTrainerAccounts } from "../../APIContext/TrainerAccountContext";
 import defaultImage from "../../Assets/Images/avtar.jpg";
+
+import { BASE_API_URL, MEDIA_BASE_URL } from "../../Config/Config";
 import "./profile.css";
 
 const Profile = () => {
-  const { trainer, updateTrainer, fetchTrainer } = useTrainerAccounts();
+  const { trainer, updateTrainer, fetchTrainer , updateTrainerProfileImage} = useTrainerAccounts();
   const fileInputRef = useRef();
+
+
 
   const [profileImage, setProfileImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
@@ -18,12 +22,16 @@ const Profile = () => {
     email: "",
     phone: "",
     sports: "",
+    bio: "",
     address: "",
     date_of_birth: "",
   });
 
   const [isEditing, setIsEditing] = useState(false);
   const [editableFields, setEditableFields] = useState({});
+
+ 
+  console.log(MEDIA_BASE_URL+profileImage);
 
   useEffect(() => {
     if (trainer && trainer.user) {
@@ -35,6 +43,7 @@ const Profile = () => {
         phone: trainer.phone || "",
         sports,
         address: trainer.address || "",
+        bio: trainer.bio || "",
         date_of_birth: trainer.date_of_birth || "",
       };
 
@@ -43,7 +52,7 @@ const Profile = () => {
       setEditableFields({});
       setIsEditing(false);
 
-      setProfileImage(trainer.image || null);
+      setProfileImage(trainer.profile_picture || null);
     }
   }, [trainer]);
 
@@ -67,38 +76,91 @@ const Profile = () => {
     setFields((prev) => ({ ...prev, [key]: value }));
   };
 
+//   const handleSave = async () => {
+
+
+
+// const formData = new FormData();
+// formData.append("user.first_name", fields.first_name || "");
+// formData.append("user.last_name", fields.last_name || "");
+// formData.append("phone", fields.phone || "");
+// formData.append("address", fields.address || "");
+// // formData.append("date_of_birth", fields.date_of_birth || "");
+// formData.append("bio", fields.bio || "");
+
+// if (imageFile) {
+//   formData.append("profile_picture", imageFile); // Use correct key expected by your backend
+// }
+
+  
+//     try {
+//       await updateTrainer(formData);
+//       await fetchTrainer();
+
+//       alert("Profile updated successfully!");
+//       setEditableFields({});
+//       setIsEditing(false);
+//       setImageFile(null);
+//     } catch (err) {
+//       console.error("Error updating profile:", err);
+//       alert("Error updating profile.");
+//     }
+//   };
+
+// const fileToBase64 = (file) => {
+//     return new Promise((resolve, reject) => {
+//         const reader = new FileReader();
+//         reader.readAsDataURL(file);
+//         reader.onload = () => resolve(reader.result);
+//         reader.onerror = error => reject(error);
+//     });
+// };
+
   const handleSave = async () => {
-    const formData = new FormData();
-    formData.append("first_name", fields.first_name || "");
-    formData.append("last_name", fields.last_name || "");
-    formData.append("phone", fields.phone || "");
-    formData.append("address", fields.address || "");
-    formData.append("date_of_birth", fields.date_of_birth || "");
-    formData.append("email", fields.email || "");
+      const updatedData = {
+          "user": {
+             
+              "first_name": fields.first_name || "",
+              "last_name": fields.last_name || ""
+          },
+          "phone": fields.phone || "",
+          "address": fields.address || "",
+          "date_of_birth": fields.date_of_birth || "",
+      
+          "bio": fields.bio || "",
+          "sports": []
+      };
 
-    if (imageFile) {
-      formData.append("image", imageFile);
-    }
+      
 
-    try {
-      await updateTrainer(formData);
-      await fetchTrainer(); // ensures we get fresh trainer data
+     
 
-      alert("Profile updated successfully!");
-      setEditableFields({});
-      setIsEditing(false);
-      setImageFile(null);
-    } catch (err) {
-      console.error("Error updating profile:", err);
-      alert("Error updating profile.");
-    }
+
+      try {
+          await updateTrainer(updatedData); 
+
+          if (imageFile) {
+            const formData = new FormData();
+            formData.append("profile_picture", imageFile);
+            await updateTrainerProfileImage(formData); 
+          }
+          await fetchTrainer(); 
+
+          alert("Profile updated successfully!");
+          setEditableFields({});
+          setIsEditing(false);
+          setImageFile(null); 
+      } catch (err) {
+          console.error("Error updating profile:", err);
+          alert("Error updating profile.");
+      }
   };
 
   const handleCancel = () => {
     setFields(originalData);
     setEditableFields({});
     setIsEditing(false);
-    setProfileImage(trainer?.image || null);
+    setProfileImage(trainer?.profile_picture || null);
     setImageFile(null);
   };
 
@@ -110,7 +172,7 @@ const Profile = () => {
             <div className="profile-photo">
               <div className="photo-box">
                 <img
-                  src={profileImage || defaultImage}
+                  src={MEDIA_BASE_URL+profileImage || defaultImage}
                   alt="Profile"
                   className="profile-img"
                 />
@@ -170,6 +232,15 @@ const Profile = () => {
                 full
               />
               <ProfileField
+                label="Bio"
+                fieldKey="bio"
+                value={fields.bio}
+                editable={editableFields.bio}
+                onEdit={handleFieldEdit}
+                onChange={handleFieldChange}
+                full
+              />
+              <ProfileField
                 label="Your Address"
                 fieldKey="address"
                 value={fields.address}
@@ -186,6 +257,7 @@ const Profile = () => {
                   editable={editableFields.date_of_birth}
                   onEdit={handleFieldEdit}
                   onChange={handleFieldChange}
+                  disabled={true}
                 />
               </div>
 
