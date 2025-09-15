@@ -1,18 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useTrainerAvailability } from "../../../APIContext/TrainerAvailabilityContext";
 import "./response.css";
 
 const RequestTimeOffForm = () => {
+  const { trainerTimeOffData, updateTrainerTimeOff } = useTrainerAvailability();
+
   const [formData, setFormData] = useState({
-    fromDate: "",
-    toDate: "",
+    from_date: "",
+    to_date: "",
     reason: "",
   });
   const [errors, setErrors] = useState({});
 
+  
+  useEffect(() => {
+    if (trainerTimeOffData) {
+      setFormData({
+        from_date: trainerTimeOffData[0].from_date || "",
+        to_date: trainerTimeOffData[0].to_date || "",
+        reason: trainerTimeOffData[0].reason || "",
+      });
+    }
+  }, [trainerTimeOffData]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    // Clear error for the field when user starts typing
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }
@@ -20,21 +33,27 @@ const RequestTimeOffForm = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.fromDate) newErrors.fromDate = "From Date is required";
-    if (!formData.toDate) newErrors.toDate = "To Date is required";
+    if (!formData.from_date) newErrors.from_date = "From Date is required";
+    if (!formData.to_date) newErrors.to_date = "To Date is required";
     if (!formData.reason.trim()) newErrors.reason = "Reason is required";
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-    // Handle successful form submission (e.g., API call or console log for demo)
-    console.log("Form submitted:", formData);
+   
+
+    try {
+      await updateTrainerTimeOff(formData);
+      alert("Time-off request submitted successfully!");
+    }catch{
+      alert("Failed to submit time-off request. Please try again.");
+    }
   };
 
   return (
@@ -47,27 +66,27 @@ const RequestTimeOffForm = () => {
               <label>From Date:</label>
               <input
                 type="date"
-                name="fromDate"
-                value={formData.fromDate}
+                name="from_date"
+                value={formData.from_date}
                 onChange={handleChange}
                 required
-                aria-invalid={errors.fromDate ? "true" : "false"}
+                aria-invalid={errors.from_date ? "true" : "false"}
               />
-              {errors.fromDate && (
-                <span className="error">{errors.fromDate}</span>
+              {errors.from_date && (
+                <span className="error">{errors.from_date}</span>
               )}
             </div>
             <div className="input-group">
               <label>To Date:</label>
               <input
                 type="date"
-                name="toDate"
-                value={formData.toDate}
+                name="to_date"
+                value={formData.to_date}
                 onChange={handleChange}
                 required
-                aria-invalid={errors.toDate ? "true" : "false"}
+                aria-invalid={errors.to_date ? "true" : "false"}
               />
-              {errors.toDate && <span className="error">{errors.toDate}</span>}
+              {errors.to_date && <span className="error">{errors.to_date}</span>}
             </div>
           </div>
           <div className="right-side">

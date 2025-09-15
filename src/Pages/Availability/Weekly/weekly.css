@@ -1,1 +1,150 @@
-.availability-select select {background: #C8C8C8;padding: 8px 18px;border: 0;border-radius: 7px;font-family: Inter;font-weight: 600;font-size: 16px;line-height: 100%;color: #000;}
+.locked-in .locked-in-content .locked-in-header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.locked-in .locked-in-content .locked-in-header p {
+    font-family: Inter;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 100%;
+    color: #2a2a2a;
+}
+
+.locked-in .locked-in-content .locked-in-header span {
+    padding: 10px;
+    background: #EDEDED;
+    width: fit-content;
+    font-family: Inter;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+    color: #363636;
+    border-radius: 8px;
+}
+
+.locked-in .locked-in-content .locked-in-table table {
+    width: 100%;
+    padding: 10px;
+}
+
+.locked-in .locked-in-content .locked-in-table table thead tr th {
+    font-family: Inter;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+    color: #535353;
+}
+
+.locked-in .locked-in-content .locked-in-table table tbody tr td {
+    text-align: center;
+    font-family: Inter;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 100%;
+    color: #535353;
+    padding: 10px;
+    padding-right: 5px;
+    vertical-align: baseline;
+    width: 50%;
+}
+
+.locked-in .locked-in-content .locked-in-table table tbody td .checkbox-group {
+    display: flex;
+    /* justify-content: center; */
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    min-height: fit-content;
+}
+
+.locked-in .locked-in-content .locked-in-table table tbody td .checkbox-group .checkbox-group-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 35px;
+    padding: 13px 10px;
+    border: 1px solid #5454543d;
+    border-radius: 8px;
+}
+
+.locked-in .locked-in-content .locked-in-table table tbody td .checkbox-group .checkbox-group-item label {
+    font-family: Inter;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 100%;
+    color: #535353;
+}
+
+
+.locked-in-table tr {
+    /* border: 1px solid red !important; */
+    margin: 20px;
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    padding: 10px;
+}
+
+.day-row-slots {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 20px;
+    height: 180px;
+    border: 1px solid #54545426;
+    width: 40%;
+    border-radius: 8px;
+
+    
+}
+.checkbox-group {
+
+
+}
+
+.update-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    padding: 10px 40px;
+}
+
+.update-button {
+    background: #B79527;
+    border: none;
+    color: #ffff;
+    padding: 15px 25px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.locked-in-header-week{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+
+.locked-in .locked-in-content .locked-in-header-week span {
+    padding: 10px;
+    background: #EDEDED;
+    width: fit-content;
+    font-family: Inter;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+    color: #363636;
+    border-radius: 8px;
+}
+
+
+.active-week {
+    background: black !important;
+    color: #ffff !important;
+}

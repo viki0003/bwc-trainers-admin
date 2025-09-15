@@ -26,7 +26,8 @@
 }
 
 .locked-in .locked-in-content .locked-in-table table {
-    width: 80%;
+    width: 100%;
+    padding: 10px;
 }
 
 .locked-in .locked-in-content .locked-in-table table thead tr th {
@@ -41,31 +42,83 @@
     text-align: center;
     font-family: Inter;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 14px;
     line-height: 100%;
     color: #535353;
-    padding: 15px;
+    padding: 10px;
+    padding-right: 5px;
     vertical-align: baseline;
+    width: 50%;
 }
 
 .locked-in .locked-in-content .locked-in-table table tbody td .checkbox-group {
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     flex-direction: column;
-    gap: 25px;
+    gap: 5px;
+    width: 100%;
+    min-height: fit-content;
 }
 
 .locked-in .locked-in-content .locked-in-table table tbody td .checkbox-group .checkbox-group-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px;
+    gap: 35px;
+    padding: 13px 10px;
+    border: 1px solid #5454543d;
+    border-radius: 8px;
 }
 
 .locked-in .locked-in-content .locked-in-table table tbody td .checkbox-group .checkbox-group-item label {
     font-family: Inter;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 14px;
     line-height: 100%;
     color: #535353;
+}
+
+
+.locked-in-table tr {
+    /* border: 1px solid red !important; */
+    margin: 20px;
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    padding: 10px;
+}
+
+.day-row-slots {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 20px;
+    height: 180px;
+    border: 1px solid #54545426;
+    width: 40%;
+    border-radius: 8px;
+
+    
+}
+.checkbox-group {
+
+
+}
+
+.update-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    padding: 10px 40px;
+}
+
+.update-button {
+    background: #B79527;
+    border: none;
+    color: #ffff;
+    padding: 15px 25px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
 }

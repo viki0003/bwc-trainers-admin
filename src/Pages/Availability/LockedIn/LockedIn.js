@@ -1,17 +1,74 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Checkbox } from "primereact/checkbox";
+import { useTrainerAvailability } from "../../../APIContext/TrainerAvailabilityContext";
 import "./lockedin.css";
 
 const LockedIn = () => {
-  const [ingredients, setIngredients] = useState([]);
+  const { trainerLockedData, updateTrainerAvailabilityLockedIn } = useTrainerAvailability();
 
-  const onIngredientsChange = (e) => {
-    let _ingredients = [...ingredients];
+  // Safe default to [] if API not ready
+  const lockedData = trainerLockedData ?? [];
 
-    if (e.checked) _ingredients.push(e.value);
-    else _ingredients.splice(_ingredients.indexOf(e.value), 1);
+  // Map day index to names
+  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-    setIngredients(_ingredients);
+  // Define all possible slots
+  const allSlots = [
+    { start: "10:00:00", end: "12:00:00", label: "10:00 AM – 12:00 PM" },
+    { start: "12:00:00", end: "02:00:00", label: "12:00 PM – 02:00 PM" },
+    { start: "02:00:00", end: "04:00:00", label: "02:00 PM – 04:00 PM" },
+    { start: "04:00:00", end: "06:00:00", label: "04:00 PM – 06:00 PM" },
+  ];
+
+  // State to store which slots are checked
+  const [selectedSlots, setSelectedSlots] = useState({});
+
+  // Initialize selected slots when trainerLockedData changes
+  useEffect(() => {
+    if (!lockedData.length) return;
+
+    const initial = {};
+    lockedData.forEach(slot => {
+      const key = `${slot.day_of_week}-${slot.start_time}-${slot.end_time}`;
+      initial[key] = true;
+    });
+    setSelectedSlots(initial);
+  }, [lockedData]);
+
+  // Handle checkbox change
+  const onSlotChange = (dayIndex, start, end, checked) => {
+    const key = `${dayIndex}-${start}-${end}`;
+    setSelectedSlots(prev => ({
+      ...prev,
+      [key]: checked
+    }));
+  };
+
+
+    // Handle Update button click
+  const handleUpdate = async () => {
+    const updatedData = [];
+
+    Object.keys(selectedSlots).forEach((key) => {
+      if (selectedSlots[key]) {
+        const [dayIndex, start, end] = key.split("-");
+        updatedData.push({
+          day_of_week: parseInt(dayIndex, 10),
+          start_time: start,
+          end_time: end,
+        });
+      }
+    });
+
+    console.log("Updated Availability JSON:", updatedData);
+    try {
+      await updateTrainerAvailabilityLockedIn(updatedData);
+      alert("Availability updated successfully!");
+    } catch (error) {
+      console.error("Error updating availability:", error);
+      alert("Failed to update availability. Please try again.");
+    }
+
   };
 
   return (
@@ -19,8 +76,9 @@ const LockedIn = () => {
       <div className="locked-in-content">
         <div className="locked-in-header">
           <p>Weekly Availability Selector</p>
-          <span>4 May 2024 - 10 May 2024 </span>
+          <span>For Every Week</span>
         </div>
+
         <div className="locked-in-table">
           <table>
             <thead>
@@ -30,183 +88,42 @@ const LockedIn = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Monday</td>
-                <td>
-                  <div className="checkbox-group">
-                    <div className="checkbox-group-item">
-                      <Checkbox
-                        inputId="ingredient1"
-                        name="pizza"
-                        value="Cheese"
-                        onChange={onIngredientsChange}
-                        checked={ingredients.includes("Cheese")}
-                      />
-                      <label htmlFor="ingredient1">10:00 AM – 12:00 PM</label>
+              {daysOfWeek.map((day, dayIndex) => (
+                <tr className="day-row" key={dayIndex}>
+                  <td className="day-row-name">{day}</td>
+                  <td className="day-row-slots">
+                    <div className="checkbox-group">
+                      {allSlots.map((slot, i) => {
+                        const key = `${dayIndex}-${slot.start}-${slot.end}`;
+                        const checked = !!selectedSlots[key];
+                        return (
+                          <div className="checkbox-group-item" key={i}>
+                            <Checkbox
+                              inputId={key}
+                              value={key}
+                              onChange={(e) =>
+                                onSlotChange(dayIndex, slot.start, slot.end, e.checked)
+                              }
+                              checked={checked}
+                            />
+                            <label htmlFor={key}>{slot.label}</label>
+                          </div>
+                        );
+                      })}
                     </div>
-                    <div className="checkbox-group-item">
-                      <Checkbox
-                        inputId="ingredient1"
-                        name="pizza"
-                        value="Cheese"
-                        onChange={onIngredientsChange}
-                        checked={ingredients.includes("Cheese")}
-                      />
-                      <label htmlFor="ingredient1">10:00 AM – 12:00 PM</label>
-                    </div>
-                    <div className="checkbox-group-item">
-                      <Checkbox
-                        inputId="ingredient1"
-                        name="pizza"
-                        value="Cheese"
-                        onChange={onIngredientsChange}
-                        checked={ingredients.includes("Cheese")}
-                      />
-                      <label htmlFor="ingredient1">10:00 AM – 12:00 PM</label>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Tuesday</td>
-                <td>
-                  <div className="checkbox-group">
-                    <div className="checkbox-group-item">
-                      <Checkbox
-                        inputId="ingredient1"
-                        name="pizza"
-                        value="Cheese"
-                        onChange={onIngredientsChange}
-                        checked={ingredients.includes("Cheese")}
-                      />
-                      <label htmlFor="ingredient1">10:00 AM – 12:00 PM</label>
-                    </div>
-                    <div className="checkbox-group-item">
-                      <Checkbox
-                        inputId="ingredient1"
-                        name="pizza"
-                        value="Cheese"
-                        onChange={onIngredientsChange}
-                        checked={ingredients.includes("Cheese")}
-                      />
-                      <label htmlFor="ingredient1">10:00 AM – 12:00 PM</label>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Wednesday</td>
-                <td>
-                  <div className="checkbox-group">
-                    <div className="checkbox-group-item">
-                      <Checkbox
-                        inputId="ingredient1"
-                        name="pizza"
-                        value="Cheese"
-                        onChange={onIngredientsChange}
-                        checked={ingredients.includes("Cheese")}
-                      />
-                      <label htmlFor="ingredient1">10:00 AM – 12:00 PM</label>
-                    </div>
-                    <div className="checkbox-group-item">
-                      <Checkbox
-                        inputId="ingredient1"
-                        name="pizza"
-                        value="Cheese"
-                        onChange={onIngredientsChange}
-                        checked={ingredients.includes("Cheese")}
-                      />
-                      <label htmlFor="ingredient1">10:00 AM – 12:00 PM</label>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Thursday</td>
-                <td>
-                  <div className="checkbox-group">
-                    <div className="checkbox-group-item">
-                      <Checkbox
-                        inputId="ingredient1"
-                        name="pizza"
-                        value="Cheese"
-                        onChange={onIngredientsChange}
-                        checked={ingredients.includes("Cheese")}
-                      />
-                      <label htmlFor="ingredient1">10:00 AM – 12:00 PM</label>
-                    </div>
-                    <div className="checkbox-group-item">
-                      <Checkbox
-                        inputId="ingredient1"
-                        name="pizza"
-                        value="Cheese"
-                        onChange={onIngredientsChange}
-                        checked={ingredients.includes("Cheese")}
-                      />
-                      <label htmlFor="ingredient1">10:00 AM – 12:00 PM</label>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Friday</td>
-                <td>
-                  <div className="checkbox-group">
-                    <div className="checkbox-group-item">
-                      <Checkbox
-                        inputId="ingredient1"
-                        name="pizza"
-                        value="Cheese"
-                        onChange={onIngredientsChange}
-                        checked={ingredients.includes("Cheese")}
-                      />
-                      <label htmlFor="ingredient1">10:00 AM – 12:00 PM</label>
-                    </div>
-                    <div className="checkbox-group-item">
-                      <Checkbox
-                        inputId="ingredient1"
-                        name="pizza"
-                        value="Cheese"
-                        onChange={onIngredientsChange}
-                        checked={ingredients.includes("Cheese")}
-                      />
-                      <label htmlFor="ingredient1">10:00 AM – 12:00 PM</label>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Saturday</td>
-                <td>
-                  <div className="checkbox-group">
-                    <div className="checkbox-group-item">
-                      <Checkbox
-                        inputId="ingredient1"
-                        name="pizza"
-                        value="Cheese"
-                        onChange={onIngredientsChange}
-                        checked={ingredients.includes("Cheese")}
-                      />
-                      <label htmlFor="ingredient1">10:00 AM – 12:00 PM</label>
-                    </div>
-                    <div className="checkbox-group-item">
-                      <Checkbox
-                        inputId="ingredient1"
-                        name="pizza"
-                        value="Cheese"
-                        onChange={onIngredientsChange}
-                        checked={ingredients.includes("Cheese")}
-                      />
-                      <label htmlFor="ingredient1">10:00 AM – 12:00 PM</label>
-                    </div>
-                  </div>
-                </td>
-              </tr>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
+        </div>
+
+         <div className="update-button-container">
+          <button className="update-button" onClick={handleUpdate}>Update Availability</button>
         </div>
       </div>
     </div>
   );
 };
+
 export default LockedIn;
