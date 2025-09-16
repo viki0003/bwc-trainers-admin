@@ -1,5 +1,5 @@
-const BASE_API_URL = "http://54.185.32.148/api";
+const BASE_API_URL = process.env.REACT_APP_BASE_API_URL;
 
 export default BASE_API_URL;
 
-export  const MEDIA_BASE_URL = "http://54.185.32.148/";
+export  const MEDIA_BASE_URL = process.env.REACT_APP_MEDIA_BASE_URL;
